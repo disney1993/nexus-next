@@ -28,7 +28,14 @@ async function peticion(ruta, opciones = {}) {
   // Traza para demostrar en la vídeo memoria que los datos vienen de la API simulada
   console.log(`[API simulada · ${lado}] ${opciones.method || 'GET'} ${url}`);
 
-  const respuesta = await fetch(url, opciones);
+  // La API simulada devuelve a veces 502/429 si recibe muchas peticiones a la vez
+  // (p. ej. en el build, al generar todas las fichas): los GET se reintentan.
+  const reintentos = opciones.method && opciones.method !== 'GET' ? 0 : 3;
+  let respuesta = await fetch(url, opciones);
+  for (let i = 1; i <= reintentos && (respuesta.status === 429 || respuesta.status >= 500); i++) {
+    await new Promise((resolver) => setTimeout(resolver, 500 * i));
+    respuesta = await fetch(url, opciones);
+  }
   const datos = await respuesta.json().catch(() => null);
   if (!respuesta.ok) {
     const error = new Error(datos?.error || `Error ${respuesta.status}`);
