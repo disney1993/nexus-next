@@ -1,11 +1,11 @@
 # Nexus — Next.js con App Router
 
 Migración a **Next.js 16 (App Router)** de la aplicación React de Nexus (Actividad 3 de
-**Demo en Vercel:** https://nexus-next-beta.vercel.app
-
 *Desarrollo Web Orientado a Componentes*). La app original era 100 % Client Components con
 React Router; esta versión usa **Server Components por defecto**, **Client Components solo
 donde hay interacción**, enrutado por **sistema de ficheros** y **Tailwind CSS**.
+
+**Demo en Vercel:** https://nexus-next-beta.vercel.app
 
 Los datos vienen de la **API simulada de Apidog** (Actividad 1):
 `https://mock.apidog.com/m1/1255596-1252971-default`
